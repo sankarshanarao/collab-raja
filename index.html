@@ -30,10 +30,12 @@
 			socket.emit('collabId')
 		}
 
-		socket.on('collabId', function(data){
-			window.alert(data)
-			collabId = data
-		})
+		function bindToRoom(cId) {
+			window.alert(cId)
+			collabId = cId;
+		}
+
+		socket.on('collabId', bindToRoom)
 
 		hljs.configure({   // optionally configure hljs
 		  languages: ['python']
@@ -62,7 +64,7 @@
 			if (source == 'api') {
 				console.log('Recieved a delta through api');
 			} else if (source == 'user') {
-				sendDelta(delta);
+				sendDelta(delta, collabId);
 			}
 		})
 
@@ -73,7 +75,7 @@
 
 		function sendDelta(delta) {
 			console.log('sendDeltacount'+(++sendDeltaCount))
-			socket.of(collabId).emit('sendDelta', collabId, delta);
+			socket.emit('sendDelta', collabId, delta);
 		}
 
 		function getSuggestions(currLine) {

@@ -19,23 +19,27 @@ function generateCollabId() {
 	var date = new Date();
 	collabId = date.toTimeString();
 	collabId = "/" + hashCode(collabId);
-	return "/111"
-	//return collabId;
+	//return "/111"
+	return collabId;
 }
 
 
 io.on('connection', (socket) => {
 	console.log('New user connected') 
-
+	
 	socket.on('sendDelta', function(cId, delta) {
 		console.log("Namespace is" , cId)
-		socket.broadcast.emit('applyDelta',delta);
+		socket.to(cId).emit('applyDelta', delta);
 	})
 
 	socket.on('collabId', function(){
-		collabId = generateCollabId()
+		var collabId = generateCollabId()
 		console.log('Sending collab id' + collabId)
 		socket.emit('collabId', collabId)
+		//Add to room over here
+		socket.join(collabId, function() {
+			console.log("User joined room " + collabId);
+		});
 	})
 });
 
