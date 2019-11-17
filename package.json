@@ -1,0 +1,24 @@
+{
+  "name": "collab-raja",
+  "version": "1.0.0",
+  "description": "Real-time code collaboration with code prediction",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sankarshanarao/collab-raja.git"
+  },
+  "author": "Rohan Talesara, Saahitya E, Sankarshana H Rao, Srikar K",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sankarshanarao/collab-raja/issues"
+  },
+  "homepage": "https://github.com/sankarshanarao/collab-raja#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.4",
+    "socket.io": "^2.3.0"
+  }
+}
