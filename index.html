@@ -14,15 +14,22 @@
 </head>
 
 <body style="background-color: #23241f">
+	<div class="navbar">
+		
+	</div>
 	<div id="container" style="background-color: white">
 		<div id="editor">
 		</div>
 	</div>
 	<script>
+<<<<<<< HEAD
 		var lstm_server = '127.0.0.1'
 		var socket_server = '127.0.0.1'
 
 		var socket=io.connect('http://'+socket_server+':3000');
+=======
+		var socket=io.connect('http://192.168.1.207:3000');
+>>>>>>> ui
 
 		hljs.configure({   // optionally configure hljs
 		  languages: ['python']
@@ -66,6 +73,7 @@
 
 		function getSuggestions(currLine) {
 			xhr = new XMLHttpRequest();
+<<<<<<< HEAD
 			xhr.open('POST', 'http://'+lstm_server+':9078/predict', true);
 			xhr.setRequestHeader("Content-Type","application/json");
 			xhr.setRequestHeader("Access-Control-Allow-Headers","*");
@@ -78,6 +86,14 @@
 				} else {
 					console.log('Error response from lstm');
 				}
+=======
+			xhr.open('POST', 'localhost:9078/predict',true);
+			xhr.setRequestHeader("Content-type","application/json");
+			xhr.send('{"model":"neural_char", "keyword":"'+currLine+'"}');
+
+			if(xhr.readyState==4 && xhr.status==200) {
+				console.log(chr.responseText);
+>>>>>>> ui
 			}
 		}
 

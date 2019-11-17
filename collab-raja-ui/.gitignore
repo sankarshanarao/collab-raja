@@ -1,12 +1,12 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-collab-raja-ui/node_modules
+/node_modules
 /.pnp
 .pnp.js
 
 # testing
-collab-raja-ui/coverage
+/coverage
 
 # production
 /build
@@ -21,4 +21,3 @@ collab-raja-ui/coverage
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-node_modules/
