@@ -44,6 +44,10 @@ def get_models():
 def main(host="127.0.0.1", port=9078):
     app.run(host=host, port=port, debug=True)
 
+@app.route("/test", methods=["GET", "POST", "OPTIONS"])
+@crossdomain(origin='*', headers="Content-Type")
+def test():
+    return jsonify({"data": {"results": ['hello1','hello2','hello3']}})
 
 if __name__ == "__main__":
     main()

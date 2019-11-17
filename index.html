@@ -39,8 +39,8 @@
 		});
 
 		quill.on('text-change', function(delta, oldDelta, source) {
-			
-			if(JSON.stringify(delta.ops[1]) == '{"insert":" "}') {
+
+			if(("code-block" in quill.getFormat()) && (JSON.stringify(delta.ops[1]) == '{"insert":" "}')) {
 				var currPos = quill.getSelection().index;
 				var lineList = quill.getText(0,currPos).split('\n');
 				var currLine = lineList[lineList.length-1];
@@ -66,15 +66,18 @@
 
 		function getSuggestions(currLine) {
 			xhr = new XMLHttpRequest();
-			xhr.open('POST', 'http://'+lstm_server+':9078/predict', false);
+			xhr.open('POST', 'http://'+lstm_server+':9078/predict', true);
 			xhr.setRequestHeader("Content-Type","application/json");
 			xhr.setRequestHeader("Access-Control-Allow-Headers","*");
 			xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
-			xhr.send('{"model":"neural_char", "keyword":"'+currLine+'"}');
-
-			if(xhr.readyState==4 && xhr.status==200) {
-				console.log(xhr.responseText);
-				console.log("hey yeah")
+			xhr.send('{"model":"neural_token", "keyword":"'+currLine+'"}');
+			console.log('Sent request to LSTM');
+			xhr.onreadystatechange = function() {
+				if(xhr.readyState==4 && xhr.status==200) {
+					console.log(xhr.responseText);
+				} else {
+					console.log('Error response from lstm');
+				}
 			}
 		}
 
