@@ -63,8 +63,8 @@
 
 		function getSuggestions(currLine) {
 			xhr = new XMLHttpRequest();
-			xhr.setRequestHeader("Content-type","application/json");
 			xhr.open('POST', '192.168.43.143:9078/predict',true);
+			xhr.setRequestHeader("Content-type","application/json");
 			xhr.send('{"model":"neural_char", "keyword":"'+currLine+'"}');
 
 			if(xhr.readyState==4 && xhr.status==200) {
