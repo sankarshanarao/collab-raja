@@ -23,7 +23,7 @@ class CollabWidget extends Component {
                 onClick={e => this.setState({ ...this.state, openCollab: true })}
                 variant="outline-dark"
             >
-                =
+                <span className="btn-txt">&#8623;</span>
             </Button>
         )
     }
