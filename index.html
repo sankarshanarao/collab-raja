@@ -20,15 +20,18 @@
 	</div>
 	<script>
 		var socket=io.connect('http://localhost:3000');
-
-		collabId = ""
+		
+		collabId = "/"
+		applyDeltaCount = 0
+		sendDeltaCount = 0
 
 		function startCollaborating(){
+			window.alert("collaborating")
 			socket.emit('collabId')
 		}
 
 		socket.on('collabId', function(data){
-			console.log(data)
+			window.alert(data)
 			collabId = data
 		})
 
@@ -64,12 +67,13 @@
 		})
 
 		socket.on('applyDelta', (delta)=>{
-			console.log('in applydelta')
+			console.log('applyDeltaCount' + (++applyDeltaCount));
 			quill.updateContents(delta);
 		})
 
 		function sendDelta(delta) {
-			socket.emit('sendDelta',delta);
+			console.log('sendDeltacount'+(++sendDeltaCount))
+			socket.of(collabId).emit('sendDelta', collabId, delta);
 		}
 
 		function getSuggestions(currLine) {
@@ -83,6 +87,7 @@
 			}
 		}
 
+		window.onload = startCollaborating;
 	</script>
 </body>
 </html>	

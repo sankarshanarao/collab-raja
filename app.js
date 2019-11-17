@@ -17,21 +17,25 @@ hashCode = function(s) {
 function generateCollabId() {
 	var collabId = "";
 	var date = new Date();
-	collabId = date.toTimeString()
-	collabId = hashCode(collabId)
-	return collabId
+	collabId = date.toTimeString();
+	collabId = "/" + hashCode(collabId);
+	return "/111"
+	//return collabId;
 }
 
 
 io.on('connection', (socket) => {
 	console.log('New user connected') 
 
-	socket.on('sendDelta', (delta) => {
+	socket.on('sendDelta', function(cId, delta) {
+		console.log("Namespace is" , cId)
 		socket.broadcast.emit('applyDelta',delta);
 	})
 
 	socket.on('collabId', function(){
-		socket.emit(generateCollabId())
+		collabId = generateCollabId()
+		console.log('Sending collab id' + collabId)
+		socket.emit('collabId', collabId)
 	})
 });
 
