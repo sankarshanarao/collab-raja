@@ -63,12 +63,15 @@
 
 		function getSuggestions(currLine) {
 			xhr = new XMLHttpRequest();
-			xhr.setRequestHeader("Content-type","application/json");
-			xhr.open('POST', '192.168.43.143:9078/predict',true);
+			xhr.open('POST', 'http://127.0.0.1:9078/predict', false);
+			xhr.setRequestHeader("Content-Type","application/json");
+			xhr.setRequestHeader("Access-Control-Allow-Headers","*");
+			xhr.setRequestHeader("Access-Control-Allow-Origin", "*");
 			xhr.send('{"model":"neural_char", "keyword":"'+currLine+'"}');
 
 			if(xhr.readyState==4 && xhr.status==200) {
-				console.log(chr.responseText);
+				console.log(xhr.responseText);
+				console.log("hey yeah")
 			}
 		}
 

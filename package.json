@@ -19,6 +19,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^1.19.4",
+    "quill-mention": "^2.1.5",
     "socket.io": "^2.3.0"
   }
 }
