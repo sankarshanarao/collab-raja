@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Socket test</title>
+	
+	<link rel="stylesheet"
+	      href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/styles/monokai-sublime.min.css">
+	<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.16.2/build/highlight.min.js"></script>
+	<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+	<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+</head>
+
+<body style="background-color: #23241f">
+	<div id="container" style="background-color: white">
+		<div id="editor">
+		</div>
+	</div>
+	<script>
+		var socket=io.connect('http://localhost:3000');
+
+		hljs.configure({   // optionally configure hljs
+		  languages: ['python']
+		});
+
+		var quill = new Quill('#editor', {
+			modules: {
+			    syntax: true,              // Include syntax module
+			    toolbar: [
+				    ['code-block']
+				]
+			},
+			theme: 'snow'
+		});
+
+		quill.on('text-change', function(delta, oldDelta, source) {
+			
+			if(JSON.stringify(delta.ops[1]) == '{"insert":" "}') {
+				var currPos = quill.getSelection().index;
+				var lineList = quill.getText(0,currPos).split('\n');
+				var currLine = lineList[lineList.length-1];
+				console.log(currLine);
+
+				getSuggestions(currLine);
+			}
+			if (source == 'api') {
+				console.log('Recieved a delta through api');
+			} else if (source == 'user') {
+				sendDelta(delta);
+			}
+		})
+
+		socket.on('applyDelta', (delta)=>{
+			console.log('in applydelta')
+			quill.updateContents(delta);
+		})
+
+		function sendDelta(delta) {
+			socket.emit('sendDelta',delta);
+		}
+
+		function getSuggestions(currLine) {
+			xhr = new XMLHttpRequest();
+			xhr.open('POST', 'localhost:9078/predict',true);
+			xhr.setRequestHeader("Content-type","application/json");
+			xhr.send('{"model":"neural_char", "keyword":"'+currLine+'"}');
+
+			if(xhr.readyState==4 && xhr.status==200) {
+				console.log(chr.responseText);
+			}
+		}
+
+	</script>
+</body>
+</html>	
