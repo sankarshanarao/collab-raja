@@ -46,3 +46,10 @@ html, body, #root, .App {
   height: 100%;
   margin: 0 auto;
 }
+
+.widget-cont {
+  float: left;
+  padding-left: 5px;
+  max-width: 12px;
+  height: 100%;
+}
