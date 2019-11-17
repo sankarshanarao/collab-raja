@@ -1,24 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
+import ReactQuill from 'react-quill';
 import './App.css';
+import 'react-quill/dist/quill.snow.css';
+import kingImg from './773-27-512.png';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="navbar">
+        <img src={kingImg} alt="king" className="king-icon" />
+      </div>
+      <div className='quill-container'> 
+        <ReactQuill className="quillEditor" theme="snow"/>
+      </div>  
+      
     </div>
   );
 }

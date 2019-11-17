@@ -20,3 +20,29 @@
 .App-link {
   color: #09d3ac;
 }
+
+html, body, #root, .App {
+  height: 100%;
+}
+
+.navbar {
+  width: 100%;
+  background-color: #606a7e;
+  height: 10%;
+  max-height: 25rem;
+}
+
+.quill-container {
+  background-color: whitesmoke;
+  height: 110%;
+}
+
+.quillEditor {
+  height: 100%;
+}
+
+.king-icon {
+  max-height: 25rem;
+  height: 100%;
+  margin: 0 auto;
+}
