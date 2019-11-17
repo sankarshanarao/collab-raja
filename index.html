@@ -16,12 +16,10 @@
 <body style="background-color: #23241f">
 	<div id="container" style="background-color: white">
 		<div id="editor">
-			<p>Hello\nworld</p>
 		</div>
 	</div>
 	<script>
 		var socket=io.connect('http://localhost:3000');
-		var s=String();
 
 		hljs.configure({   // optionally configure hljs
 		  languages: ['python']
@@ -38,7 +36,15 @@
 		});
 
 		quill.on('text-change', function(delta, oldDelta, source) {
-			console.log(delta);
+			
+			if(JSON.stringify(delta.ops[1]) == '{"insert":" "}') {
+				var currPos = quill.getSelection().index;
+				var lineList = quill.getText(0,currPos).split('\n');
+				var currLine = lineList[lineList.length-1];
+				console.log(currLine);
+
+				getSuggestions(currLine);
+			}
 			if (source == 'api') {
 				console.log('Recieved a delta through api');
 			} else if (source == 'user') {
@@ -50,8 +56,20 @@
 			console.log('in applydelta')
 			quill.updateContents(delta);
 		})
+
 		function sendDelta(delta) {
 			socket.emit('sendDelta',delta);
+		}
+
+		function getSuggestions(currLine) {
+			xhr = new XMLHttpRequest();
+			xhr.setRequestHeader("Content-type","application/json");
+			xhr.open('POST', '192.168.43.143:9078/predict',true);
+			xhr.send('{"model":"neural_char", "keyword":"'+currLine+'"}');
+
+			if(xhr.readyState==4 && xhr.status==200) {
+				console.log(chr.responseText);
+			}
 		}
 
 	</script>

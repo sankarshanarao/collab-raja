@@ -10,7 +10,6 @@ io.on('connection', (socket) => {
 	console.log('New user connected') 
 
 	socket.on('sendDelta', (delta) => {
-		console.log('Delta: '+delta);
 		socket.broadcast.emit('applyDelta',delta);
 	})
 });
