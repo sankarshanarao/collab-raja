@@ -41,6 +41,13 @@ io.on('connection', (socket) => {
 			console.log("User joined room " + collabId);
 		});
 	})
+
+	socket.on('collabWithId', function(collabId){
+		//Add to room over here
+		socket.join(collabId, function() {
+			console.log("User joined room " + collabId);
+		});
+	})
 });
 
 app.get('/', (req, res) => {

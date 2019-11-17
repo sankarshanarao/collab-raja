@@ -26,8 +26,12 @@
 		sendDeltaCount = 0
 
 		function startCollaborating(){
-			window.alert("collaborating")
-			socket.emit('collabId')
+			window.alert("collaborating");
+			socket.emit('collabId');
+		}
+
+		function collabWithId(collabId) {
+			socket.emit('collabWithId', collabId);
 		}
 
 		function bindToRoom(cId) {
