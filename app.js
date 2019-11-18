@@ -7,19 +7,18 @@ server = app.listen(port);
 const io = require('socket.io')(server);
 
 hashCode = function(s) {
-	var h = 0, l = s.length, i = 0;
-	if ( l > 0 )
-	  while (i < l)
-		h = (h << 5) - h + s.charCodeAt(i++) | 0;
-	return h;
+	// var h = 0, l = s.length, i = 0;
+	// if ( l > 0 )
+	//   while (i < l)
+	// 	h = (h << 5) - h + s.charCodeAt(i++) | 0;
+	return s.toString(36);
   };
 
 function generateCollabId() {
 	var collabId = "";
 	var date = new Date();
-	collabId = date.toTimeString();
+	collabId = date.getTime();
 	collabId = "/" + hashCode(collabId);
-	//return "/111"
 	return collabId;
 }
 
@@ -28,8 +27,8 @@ io.on('connection', (socket) => {
 	console.log('New user connected') 
 	
 	socket.on('sendDelta', function(cId, delta) {
-		console.log("Namespace is" , cId)
 		socket.to(cId).emit('applyDelta', delta);
+		//socket.broadcast.emit('applyDelta', delta);
 	})
 
 	socket.on('collabId', function(){

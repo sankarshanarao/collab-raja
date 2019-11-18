@@ -30,12 +30,14 @@
 			socket.emit('collabId');
 		}
 
-		function collabWithId(collabId) {
-			socket.emit('collabWithId', collabId);
+		function collabWithId(cId) {
+			socket.emit('collabWithId', cId);
+			collabId = cId;
 		}
 
 		function bindToRoom(cId) {
-			window.alert(cId)
+			window.alert(cId);
+			console.log(cId);
 			collabId = cId;
 		}
 
