@@ -18,7 +18,7 @@ function generateCollabId() {
 	var collabId = "";
 	var date = new Date();
 	collabId = date.getTime();
-	collabId = "/" + hashCode(collabId);
+	collabId = hashCode(collabId);
 	return collabId;
 }
 
