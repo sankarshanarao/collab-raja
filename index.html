@@ -14,6 +14,9 @@
 </head>
 
 <body style="background-color: #23241f">
+	<div class="navbar">
+		
+	</div>
 	<div id="container" style="background-color: white">
 		<div id="editor">
 		</div>
@@ -41,7 +44,7 @@
 			collabId = cId;
 		}
 
-		socket.on('collabId', bindToRoom)
+		socket.on('collabId', bindToRoom);
 
 		hljs.configure({   // optionally configure hljs
 		  languages: ['python']

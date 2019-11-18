@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const path=require('path');
+const path = require('path');
 const port = process.env.PORT || 3000;
 server = app.listen(port);
 
@@ -28,6 +28,7 @@ io.on('connection', (socket) => {
 	
 	socket.on('sendDelta', function(cId, delta) {
 		socket.to(cId).emit('applyDelta', delta);
+		console.log('sending delta', cId, delta);
 		//socket.broadcast.emit('applyDelta', delta);
 	})
 
@@ -49,6 +50,8 @@ io.on('connection', (socket) => {
 	})
 });
 
+
+console.log('Open 0.0.0.0:' + port + ' on your browser.');
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname+'/index.html'));
+	res.sendFile(path.join(__dirname + '/index.html'));
 });

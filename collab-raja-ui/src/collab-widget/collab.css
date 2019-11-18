@@ -1,0 +1,15 @@
+.generate-code-btn {
+    height: 80%;
+    margin: 5px;
+    border-radius: 40%;
+}
+
+.modal-head-img {
+    margin: 0 auto;
+    max-width: 5rem;
+}
+
+.btn-txt {
+    color: thistle;
+    font-weight: 900;
+}
