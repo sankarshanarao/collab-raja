@@ -55,17 +55,17 @@ class App extends Component {
   setupSocketWithQuill() {
     console.log(this.quill);
     this.quill.on('text-change', (delta, oldDelta, source) => {
-      if (JSON.stringify(delta.ops[1]) === '{"insert":" "}') {
-        var currPos = this.quill.getSelection(true).index;
-        var lineList = this.quill.getText(0, currPos).split('\n');
-        var currLine = lineList[lineList.length - 1];
-        console.log(currLine);
-
-        this.getSuggestions(currLine);
-      }
       if (source === 'api') {
         console.log('Recieved a delta through api');
       } else if (source === 'user') {
+        if (JSON.stringify(delta.ops[1]) === '{"insert":" "}') {
+          var currPos = this.quill.getSelection(true).index;
+          var lineList = this.quill.getText(0, currPos).split('\n');
+          var currLine = lineList[lineList.length - 1];
+          console.log(currLine);
+
+          this.getSuggestions(currLine);
+        }
         this.sendDelta(delta, this.collabId);
       }
     });
@@ -101,8 +101,9 @@ class App extends Component {
 
   getSuggestions(line) {
     console.log("Getting suggestions");
-    const lstmIP = '192.168.43.138:9078';
-    fetch('http://' + lstmIP + '/test').then(res => console.log(res));
+    const lstmIP = '192.168.1.9:9078';
+    fetch('http://' + lstmIP + '/test').then(
+      res => res.json()).then((jsonres)=>{console.log(jsonres.data.results);},(error)=>{console.log(error);});
   }
   render() {
     return (
@@ -113,6 +114,10 @@ class App extends Component {
           <div className='widget-cont'>
             <CollabWidget socket={this.setupSocket} collabId={this.state.collabId} />
           </div>
+        </div>
+        <div>
+          <select id="code-suggestions-dropdown" name="code-suggestions">
+          </select>
         </div>
         <div className='quill-container'>
         </div>
