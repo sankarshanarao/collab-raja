@@ -40,9 +40,13 @@ def predict():
 def get_models():
     return jsonify({"data": {"results": list(models)}})
 
+@app.route("/test", methods=["GET", "POST", "OPTIONS"])
+@crossdomain(origin='*', headers="Content-Type")
+def test():
+    return jsonify({"data": {"results": ["hello1","hello2","hello3"]}})
 
-def main(host="127.0.0.1", port=9078):
-    app.run(host=host, port=port, debug=True)
+def main(host="0.0.0.0", port=9078):
+    app.run(host=host, port=port)
 
 
 if __name__ == "__main__":
