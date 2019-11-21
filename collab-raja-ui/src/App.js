@@ -53,19 +53,9 @@ class App extends Component {
   }
 
   setupSocketWithQuill() {
-    console.log(this.quill);
+    //console.log(this.quill);
     this.quill.on('text-change', (delta, oldDelta, source) => {
-      if (source === 'api') {
-        console.log('Recieved a delta through api');
-      } else if (source === 'user') {
-        if (JSON.stringify(delta.ops[1]) === '{"insert":" "}') {
-          var currPos = this.quill.getSelection(true).index;
-          var lineList = this.quill.getText(0, currPos).split('\n');
-          var currLine = lineList[lineList.length - 1];
-          console.log(currLine);
-
-          this.getSuggestions(currLine);
-        }
+      if (source === 'user') {
         this.sendDelta(delta, this.collabId);
       }
     });
@@ -97,6 +87,21 @@ class App extends Component {
     });
 
     this.quill = quill;
+
+    this.quill.on('text-change', (delta, oldDelta, source) => {
+      if (source === 'api') {
+        console.log('Recieved a delta through api');
+      } else if (source === 'user') {
+        if (JSON.stringify(delta.ops[1]) === '{"insert":" "}') {
+          var currPos = this.quill.getSelection(true).index;
+          var lineList = this.quill.getText(0, currPos).split('\n');
+          var currLine = lineList[lineList.length - 1];
+          console.log(currLine);
+
+          this.getSuggestions(currLine);
+        }
+      }
+    });
   }
 
   getSuggestions(line) {
