@@ -22,7 +22,7 @@ class App extends Component {
   setupSocket(collabId) {
     console.log('settingup Socket', collabId, this.quill);
     const socIp = document.location.host.split(':')[0];
-    const socket = io.connect('http://'+socIp+':3000');
+    const socket = io.connect('http://' + socIp + ':3000');
     this.socket = socket;
 
     if (collabId) {
@@ -61,7 +61,7 @@ class App extends Component {
         var currLine = lineList[lineList.length - 1];
         console.log(currLine);
 
-        // getSuggestions(currLine);
+        this.getSuggestions(currLine);
       }
       if (source === 'api') {
         console.log('Recieved a delta through api');
@@ -83,16 +83,27 @@ class App extends Component {
 
   componentDidMount() {
     const quill = new Quill('.quill-container', {
-      theme: 'snow'
+      modules: {
+        toolbar: [
+          [{ 'header': [1, 2, 3, 4, false] }],
+          ['bold', 'italic', 'underline'],
+          ['link', 'image'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          ['code-block'],
+
+        ]
+      },
+      theme: 'snow',
     });
 
     this.quill = quill;
-
-    // quill.on('text-change', (delta, oldDelta, source) => {
-    //   console.log(delta, source);
-    // });
   }
 
+  getSuggestions(line) {
+    console.log("Getting suggestions");
+    const lstmIP = '192.168.43.138:9078';
+    fetch('http://' + lstmIP + '/test').then(res => console.log(res));
+  }
   render() {
     return (
       <div className="App">
@@ -102,7 +113,6 @@ class App extends Component {
           <div className='widget-cont'>
             <CollabWidget socket={this.setupSocket} collabId={this.state.collabId} />
           </div>
-
         </div>
         <div className='quill-container'>
         </div>
